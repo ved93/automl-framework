@@ -11,5 +11,5 @@ This is mainly inspired from abhishek thakur's ml framework. I have added my fun
 6. Iteration 6 : Add feature selection
 7. Iteration 7 : Revisit the design and structure
 8. Iteration 8 : Add support for custom data-analyis library
-9. Iteration 9 : 
+9. Iteration 9 : Add 
 10.Iteration 10: 
