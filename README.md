@@ -12,4 +12,4 @@ This is mainly inspired from abhishek thakur's ml framework. I have added my fun
 7. Iteration 7 : Revisit the design and structure
 8. Iteration 8 : Add support for custom data-analyis library
 9. Iteration 9 : Add 
-10.Iteration 10: 
+10. Iteration 10:
