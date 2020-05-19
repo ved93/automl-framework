@@ -91,14 +91,17 @@ class CrossValidation:
 
 
 if __name__ == "__main__":
-    df = pd.read_csv("../input/train_multilabel.csv")
+    # Note do not shuffle time series data
+    df = pd.read_csv("../input/train.csv")
     cv = CrossValidation(
         df,
         shuffle=True,
-        target_cols=["attribute_ids"],
-        problem_type="multilabel_classification",
-        multilabel_delimiter=" ",
+        target_cols=["target"],
+        problem_type="binary_classification",
+        # multilabel_delimiter=" ",
     )
     df_split = cv.split()
+    df_split.to_csv("../input/train_folds.csv", index=False)
+
     print(df_split.head())
     print(df_split.kfold.value_counts())
