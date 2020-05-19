@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# input data and models
+input/
+models/
+
+# data files
+*.csv
+*.h5
+*.pkl
+*.pth
+.DS_Store

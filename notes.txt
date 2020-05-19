@@ -1,0 +1,237 @@
+--------------------------------------------------------------------------------------------------------------------------------------
+PART 1 : SYSTEM SETUP
+--------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------
+CODESERVER
+-------------------------------------------------------------------
+> Make a habit of using CodeServer, this can also be used when you are working remotely on servers. It basically gives you a VSCode like environment
+> Navigate to the github page from where you can install codeserver, link : https://github.com/cdr/code-server/releases/download/3.2.0/code-server-3.2.0-linux-x86_64.tar.gz
+> Run the binary using the following command
+PASSWORD=<pass> ./code-server --host 0.0.0.0 --port 10000(any port that you want basically)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+PROJECT STRUCTURING
+-------------------------------------------------------------------
+> Now we need to structure the project properly.
+---
+ |
+ |--src/
+     |-- train.py
+     |-- __init__.py
+     |-- metrics.py
+     |-- create_folds.py
+     |-- predict.py
+     |-- dataset.py
+     |-- loss.py
+     |-- utils.py
+     |-- feature_generator.py
+     |-- dispatcher.py
+     |-- engine.py
+ |--input/
+ |--models/
+ |.git/
+ |.gitignore
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+.gitignore
+-------------------------------------------------------------------
+> Use the standard .gitignore template for python provided by github
+	link : https://github.com/github/gitignore/blob/master/Python.gitignore
+> We have added additional items based on our project structuring
+```
+# input data and models
+input/
+models/
+
+# data files
+*.csv
+*.h5
+*.pkl
+*.pth
+```
+-------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+PART 2 : GATHER DATA AND BUILD CROSS VALIDATION
+--------------------------------------------------------------------------------------------------------------------------------------
+
+PS : Right now we are using the categorical feature encoding challenge dataset
+
+-------------------------------------------------------------------
+create_folds.py
+-------------------------------------------------------------------
+> Create K-folds for our problem to perform K-fold cross validation while training
+> We will use the sklearn.model_selection.StratifiedKFolds for the same
+> We will create a generic script that will do this thing for us
+> code is available in src/create_folds.py
+-------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+PART 3 : TRAINING A BASIC MODEL
+--------------------------------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------
+train.py
+-------------------------------------------------------------------
+> Now a basic classifier will be trained over this
+> Using K_fold validation, therefore it is good to use a k_fold map (check the code)
+> train_data and fold to be used can be picked up from an environment variable, so that we can have an abstracted code
+> The labels can be label encoded(["yes","no","maybe"] --> [0,1,2]) (Check code to do that)
+> use a basic classifier from the sklearn packages (right now random forest)
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+
+NOTE : ALL THE SCRIPTS ARE RUN USING src.script_name --> this maintains the level at the top of the directory 
+> Interesting, I never did this before, so this is how it is going to be from now on
+> Structuring machine learning projects from day 1 is a must
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+run.sh
+-------------------------------------------------------------------
+> To handle the enivronment variables, it is a good idea to have a script to run the python file
+> use EXPORT <ENVIRONMENT_VARIABLE> = <VALUE> --> to define environment variables in bash script
+-------------------------------------------------------------------
+
+
+-------------------------------------------------------------------
+dispatch.py
+-------------------------------------------------------------------
+> We can have multiple models that we train, which we can run in the run.sh script and we can comfortably take a break
+> This is achieved using this (check dispatch --> map of possible models --> and the subsequent commands)
+> We will use this idea from the days ahead, redundancy in the code will be minimal through this
+> NOTE in the run.sh --> Take MODEL name using $1 --> first argument in the python -m command
+> save the models using joblib (check train.py) --> for each model with proper naming convention
+-------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+PART 4 : CROSS VALIDATION FRAMEWORK
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Different types of cross validations:
+1) KFold
+2) Stratified KFold --> Maintains the ratio in the target labels (important in case of class imbalance)
+3) Multilabel CLassification
+4) Regression cross-validation
+5) Hold-out boased validation
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+# HANDLING CATEGORICAL VARIABLES
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Ordinal Variables --> Label Encoding
+Freezing - 0
+Cold - 1
+Warm - 2 
+Hot - 3
+Boiling hot - 4
+Lava hot - 5
+
+Ordinal Variables --> Binary Encoding
+Freezing - 000
+Cold - 001
+Warm - 010
+Hot - 011
+Boiling hot - 100
+Lava hot - 101
+
+Ordinal Variables --> One Hot Encoding
+Freezing - 000001
+Cold - 000010
+Warm - 000100
+Hot - 001000
+Boiling hot - 010000
+Lava hot - 100000
+
+converted six Different Levels to six binary features
+[
+    0, 0, 0, 0, 0, 1
+    0, 0, 0, 0, 1, 0
+    0, 0, 0, 1, 0, 0
+    0, 0, 1, 0, 0, 0     ----> This is a sparse Matrix
+    0, 1, 0, 0, 0, 0     ----> Quite memory efficient 
+    1, 0, 0, 0, 0, 0     ----> Therefore this is the preferred method
+]
+
+We will generally be using LabelEncoding or OneHotEncoding for the purpose
+
+
+# NOTE : Sometimes there is a possibility that there are some entries in a column that are present
+in the test dataset but no in the train data, this kind of thing can cause problems when using the
+the transforms on categorical datasets.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+# Binary Classification metrics
+--------------------------------------------------------------------------------------------------------------------------------------
+> Recall
+> F1-score (F1)
+> AUC (Area under the ROC Curve) --> (ROC --> Reciever Operation Charachteristics)
+> logloss
+
+True Positives (TP)  --> Actual Label  : 1, Predicted Label : 1
+> True Negative (TN) --> Actual Label : 0, Predicted Label : 0
+> False Positives (FP) --> Actual Label : 0, Predicted Label : 1
+> False Negatives (FN) --> Actual Label : 1, Predicted Label : 0
+
+> Accuracy =  Correct predicitions / total samples
+         =     (TP + TN) / (TP + FP + TN + FN)
+
+> Precision =   TP / (TP + FP)
+           
+> Preicision Highere, lesser False Positive Rate
+
+> Recall =  TP / (TP + FN)
+
+> F1 Score = 2 * Recall * Precision / (Recall + Precision)
+         = 2 * TP /(2*TP + FP + FN)
+
+> AUC = To understand this, we defined two new terms, TPR and FPR
+
+True Positive Rate (TPR) --> TP / (TP + FN)
+False Positive Rate (FPR) --> FP / (TN + FP)
+
+        |
+      | |
+      | |
+     TPR|
+      | |
+      | |___________________
+           ---- FPR -----
+
+Under different thresholds, we calculate the TPR and FPR, and then we plot the curve
+We then calculate the area under the curve
+
+AUC --> 1 -> good model
+AUC --> 0 -> bad model
+AUC --> 0.5 --> random model
+
+
+
+
+> logloss = -1 * (y*log(p) + (1-y)*log(1-p))
+High penalization for incorrect
+
