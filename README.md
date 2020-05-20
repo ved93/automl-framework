@@ -1,5 +1,6 @@
 # automl_framework
-This is mainly inspired from abhishek thakur's youtube session. I have modified according to my toolkit which helps me in day to day life at work
+This is mainly inspired from abhishek thakur's youtube session. I have modified according to my toolkit which helps me in day to day life at work and made it automated. The idea is to make a robust automated ML pipeline which helps in repid development of machine-learning models. I will also opensource my data-analysis library `neo` in later iterations. Below I am sharing my iterations plan. 
+I will focus more on how to add business-value and less on getting highly-accurate models. I will share my insight-generation process as part of it. 
 
 
 # Next Iterations Plan
