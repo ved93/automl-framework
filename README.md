@@ -1,4 +1,4 @@
-# mlframework
+# automl_framework
 This is mainly inspired from abhishek thakur's youtube session. I have modified according to my toolkit which helps me in day to day life at work
 
 
