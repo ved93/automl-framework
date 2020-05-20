@@ -97,9 +97,22 @@ if __name__ == "__main__":
     df_test["target"] = -1
     full_data = pd.concat([df, df_test])
 
-    cols = [c for c in df.columns if c not in ["id", "target"]]
+    # cols = [c for c in df.columns if c not in ["id", "target"]]
+
+    # full_data = full_data.drop(["id", "target", "kfold"], axis=1)
+
+    cat_features = list(
+        full_data.drop(["id", "target"], axis=1)
+        .select_dtypes(include=["object"])
+        .columns
+    )
+    print("Categorical: {} features".format(len(cat_features)))
+
     cat_feats = CategoricalFeatures(
-        full_data, categorical_features=cols, encoding_type="ohe", handle_na=True
+        full_data,
+        categorical_features=cat_features,
+        encoding_type="ohe",
+        handle_na=True,
     )
     full_data_transformed = cat_feats.fit_transform()
 
@@ -111,4 +124,6 @@ if __name__ == "__main__":
     preds = clf.predict_proba(X_test)[:, 1]
 
     sample.loc[:, "target"] = preds
-    sample.to_csv("submission.csv", index=False)
+    # sample.loc[:, "id"] = sample.loc[:, "id"].astype(int)
+
+    sample.to_csv("../models/submission.csv", index=False)

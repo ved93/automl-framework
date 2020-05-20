@@ -34,8 +34,11 @@ if __name__ == "__main__":
 
     valid_df = valid_df[train_df.columns]
 
+    cat_features = list(train_df.select_dtypes(include=["object"]).columns)
+    print("Categorical: {} features".format(len(cat_features)))
+
     label_encoders = {}
-    for c in train_df.columns:
+    for c in cat_features:
         lbl = preprocessing.LabelEncoder()
         train_df.loc[:, c] = train_df.loc[:, c].astype(str).fillna("NONE")
         valid_df.loc[:, c] = valid_df.loc[:, c].astype(str).fillna("NONE")
