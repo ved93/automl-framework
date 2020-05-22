@@ -1,5 +1,10 @@
 import pandas as pd
 from sklearn import model_selection
+import os
+
+
+TRAINING_DATA = os.environ.get("TRAINING_DATA")
+TEST_DATA = os.environ.get("TEST_DATA")
 
 
 # https://github.com/biocore/calour/blob/master/calour/training.py#L144
@@ -92,7 +97,7 @@ class CrossValidation:
 
 if __name__ == "__main__":
     # Note do not shuffle time series data
-    df = pd.read_csv("../input/train.csv")
+    df = pd.read_csv(TRAINING_DATA)
     cv = CrossValidation(
         df,
         shuffle=True,
@@ -101,7 +106,7 @@ if __name__ == "__main__":
         # multilabel_delimiter=" ",
     )
     df_split = cv.split()
-    df_split.to_csv("../input/train_folds.csv", index=False)
+    df_split.to_csv("input/train_folds.csv", index=False)
 
     print(df_split.head())
     print(df_split.kfold.value_counts())

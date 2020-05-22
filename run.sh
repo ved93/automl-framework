@@ -3,9 +3,11 @@ export TEST_DATA=input/test.csv
 
 export MODEL=$1
 
+python -m src.cross_validation
+
 # FOLD=0 python -m src.train
 # FOLD=1 python -m src.train
 # FOLD=2 python -m src.train
 # FOLD=3 python -m src.train
 # FOLD=4 python -m src.train
-python -m src.predict
+# python -m src.predict

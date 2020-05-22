@@ -6,6 +6,7 @@ from sklearn import metrics
 import joblib
 
 from . import dispatcher
+from . import categorical
 
 TRAINING_DATA = os.environ.get("TRAINING_DATA")
 TEST_DATA = os.environ.get("TEST_DATA")
@@ -37,6 +38,7 @@ if __name__ == "__main__":
     cat_features = list(train_df.select_dtypes(include=["object"]).columns)
     print("Categorical: {} features".format(len(cat_features)))
 
+    # in next iteration need to handel cat intelligently
     label_encoders = {}
     for c in cat_features:
         lbl = preprocessing.LabelEncoder()
