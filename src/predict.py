@@ -50,4 +50,4 @@ if __name__ == "__main__":
         test_data_path="input/test.csv", model_type=MODEL, model_path="models/"
     )
     submission.loc[:, "id"] = submission.loc[:, "id"].astype(int)
-    submission.to_csv(f"models/rf_submission.csv", index=False)
+    submission.to_csv(f"models/{MODEL}_submission.csv", index=False)
