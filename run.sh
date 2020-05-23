@@ -3,6 +3,9 @@ export TEST_DATA=input/test.csv
 
 export MODEL=$1
 
+#check out below for workflow
+#https://paris-saclay-cds.github.io/ramp-docs/ramp-workflow/stable/workflow.html
+
 python -m src.cross_validation
 
 # FOLD=0 python -m src.train

@@ -12,6 +12,9 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 # catb.fit(X_train, y_train)
 # catb.score(X_test, y_test))
 
+# https://github.com/catboost/tutorials/blob/master/python_tutorial.ipynb
+
+
 0.75091
 MODELS = {
     "randomforest": ensemble.RandomForestClassifier(
