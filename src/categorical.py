@@ -1,6 +1,9 @@
 from sklearn import preprocessing
 
 
+# https://github.com/dirty-cat/dirty_cat
+
+
 class CategoricalFeatures:
     def __init__(self, df, categorical_features, encoding_type, handle_na=False):
         """
