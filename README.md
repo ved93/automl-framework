@@ -14,7 +14,7 @@ Below I am sharing my iterations plan.
 7. Iteration 7 : Revisit the design and structure
 8. Iteration 8 : Add support for custom data-analyis library
 9. Iteration 9 : Add pipeline support 
-10. Iteration 10:
+10. Iteration 10: Release v1
 
 
 Please feel free to send PR.
