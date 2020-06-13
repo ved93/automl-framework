@@ -13,4 +13,4 @@ python -m src.cross_validation
 # FOLD=2 python -m src.train
 # FOLD=3 python -m src.train
 # FOLD=4 python -m src.train
-# python -m src.predict
+python -m src.predict
