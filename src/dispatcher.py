@@ -15,10 +15,10 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 # https://github.com/catboost/tutorials/blob/master/python_tutorial.ipynb
 
 
-0.75091
+# 0.75091
 MODELS = {
     "randomforest": ensemble.RandomForestClassifier(
-        n_estimators=200, n_jobs=-1, verbose=2
+        n_estimators=100, n_jobs=-1, verbose=2
     ),
     "extratrees": ensemble.ExtraTreesClassifier(n_estimators=200, n_jobs=-1, verbose=2),
     "catboost": CatBoostClassifier(),
