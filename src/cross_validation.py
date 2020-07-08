@@ -5,6 +5,8 @@ import os
 
 TRAINING_DATA = os.environ.get("TRAINING_DATA")
 TEST_DATA = os.environ.get("TEST_DATA")
+OUTPATH = os.environ.get("OUTPATH")
+
 
 
 # https://github.com/abhishekkrthakur/mlframework/pull/9/commits/3801955218b2dc7f54d9e8333a72cbc6c832456b
@@ -108,7 +110,8 @@ if __name__ == "__main__":
         # multilabel_delimiter=" ",
     )
     df_split = cv.split()
-    df_split.to_csv("input/train_folds.csv", index=False)
+    print(OUTPATH)
+    df_split.to_csv("{}/train_folds.csv".format(OUTPATH), index=False)
 
     print(df_split.head())
     print(df_split.kfold.value_counts())

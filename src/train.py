@@ -38,6 +38,7 @@ if __name__ == "__main__":
     cat_features = list(train_df.select_dtypes(include=["object"]).columns)
     print("Categorical: {} features".format(len(cat_features)))
 
+
     # in next iteration need to handel cat intelligently
     label_encoders = {}
     for c in cat_features:
@@ -53,6 +54,8 @@ if __name__ == "__main__":
         train_df.loc[:, c] = lbl.transform(train_df[c].values.tolist())
         valid_df.loc[:, c] = lbl.transform(valid_df[c].values.tolist())
         label_encoders[c] = lbl
+
+    # print(train_df.isnull().sum())
 
     # data is ready to train
     clf = dispatcher.MODELS[MODEL]

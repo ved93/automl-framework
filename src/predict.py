@@ -9,6 +9,8 @@ import numpy as np
 from . import dispatcher
 
 MODEL = os.environ.get("MODEL")
+TEST_DATA = os.environ.get("TEST_DATA")
+
 
 
 def predict(test_data_path, model_type, model_path):
@@ -47,7 +49,7 @@ def predict(test_data_path, model_type, model_path):
 
 if __name__ == "__main__":
     submission = predict(
-        test_data_path="input/test.csv", model_type=MODEL, model_path="models/"
+        test_data_path=TEST_DATA, model_type=MODEL, model_path="models/"
     )
     submission.loc[:, "id"] = submission.loc[:, "id"].astype(int)
     submission.to_csv(f"models/{MODEL}_submission.csv", index=False)
