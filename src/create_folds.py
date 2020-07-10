@@ -1,8 +1,12 @@
 import pandas as pd
 from sklearn import model_selection
+import os
+
+TRAINING_DATA = os.environ.get("TRAINING_DATA")
+
 
 if __name__ == "__main__":
-    df = pd.read_csv("../input/train.csv")
+    df = pd.read_csv(TRAINING_DATA)
     df["kfold"] = -1
 
     df = df.sample(frac=1).reset_index(drop=True)
