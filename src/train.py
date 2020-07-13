@@ -3,10 +3,15 @@ import pandas as pd
 from sklearn import ensemble
 from sklearn import preprocessing
 from sklearn import metrics
+from neo.feature_engineering import proc_df
+
 import joblib
 
 from . import dispatcher
 from . import categorical
+# from . import metrics
+
+# metrics.ClassificationMetrics.
 
 TRAINING_DATA = os.environ.get("TRAINING_DATA")
 TEST_DATA = os.environ.get("TEST_DATA")
@@ -62,7 +67,7 @@ if __name__ == "__main__":
     clf.fit(train_df, ytrain)
     preds = clf.predict_proba(valid_df)[:, 1]
     print(metrics.roc_auc_score(yvalid, preds))
-
+    
     joblib.dump(label_encoders, f"models/{MODEL}_{FOLD}_label_encoder.pkl")
     joblib.dump(clf, f"models/{MODEL}_{FOLD}.pkl")
     joblib.dump(train_df.columns, f"models/{MODEL}_{FOLD}_columns.pkl")
